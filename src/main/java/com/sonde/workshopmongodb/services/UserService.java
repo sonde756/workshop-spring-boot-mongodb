@@ -1,6 +1,7 @@
 package com.sonde.workshopmongodb.services;
 
 import com.sonde.workshopmongodb.domain.User;
+import com.sonde.workshopmongodb.dto.UserDTO;
 import com.sonde.workshopmongodb.repository.UserRepository;
 import com.sonde.workshopmongodb.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return repository.findAll();
     }
 
@@ -25,4 +26,12 @@ public class UserService {
         return optionalUser.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
+
+    public User insert(User obj) {
+        return repository.insert(obj);
+    }
+
+    public User fromDTO(UserDTO objDto) {
+        return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
+    }
 }
