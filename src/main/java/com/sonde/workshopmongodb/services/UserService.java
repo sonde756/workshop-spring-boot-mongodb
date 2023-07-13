@@ -31,9 +31,23 @@ public class UserService {
         return repository.insert(obj);
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         findById(id);
         repository.deleteById(id);
+    }
+
+    public User update(User obj) {
+        User existingObj = repository.findById(obj.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Objeto não encontrado"));
+        updateData(existingObj, obj);
+        return repository.save(existingObj);
+    }
+
+
+    private void updateData(User newObj, User obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+
     }
 
     public User fromDTO(UserDTO objDto) {
